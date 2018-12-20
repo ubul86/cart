@@ -11,7 +11,8 @@ class JSXAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';    
-    public $js = [      
+    public $js = [  
+        'javascript/components/SnackBar.jsx',
         'javascript/components/UnsetCart.jsx',
         'javascript/components/SaveCart.jsx',
         'javascript/components/Item.jsx',

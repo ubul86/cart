@@ -4,12 +4,18 @@ class Menu extends React.Component {
         this.state = {
             items: {},
             cart: {},
+            message: '',
         };
+        this.notify = this.notify.bind(this);
         this.addToCart = this.addToCart.bind(this);
         this.deleteFromCart = this.deleteFromCart.bind(this);
         this.unsetCart = this.unsetCart.bind(this);
         this.saveCart = this.saveCart.bind(this);
+        this.emptyMessage = this.emptyMessage.bind(this);
+
+
     }
+
     componentDidMount() {
         this.serverRequest = $.get("/api/list-available-items", function (items) {
             this.setState({
@@ -24,7 +30,7 @@ class Menu extends React.Component {
         }.bind(this));
     }
 
-    unsetCart() {        
+    unsetCart() {
         if (this.state.cart.length > 0) {
             this.serverRequest = $.post("/api/unset-cart", function (response) {
                 this.setState({
@@ -32,11 +38,11 @@ class Menu extends React.Component {
                 });
             }.bind(this));
         } else {
-            alert("Üres");
+            this.notify("Cart is empty");
         }
     }
 
-    saveCart(){
+    saveCart() {
         if (this.state.cart.length > 0) {
             this.serverRequest = $.post("/api/save-cart", function (response) {
                 this.setState({
@@ -44,8 +50,18 @@ class Menu extends React.Component {
                 });
             }.bind(this));
         } else {
-            alert("Üres a kosár");
+            this.notify("Cart is empty");
         }
+    }
+
+    notify(message) {
+        this.setState({
+            "message": message
+        });
+        var me = this;
+        setTimeout(function () {
+            me.emptyMessage()
+        }, 3000);
     }
 
     addToCart(itemId, quantity) {
@@ -72,8 +88,14 @@ class Menu extends React.Component {
         }
     }
 
-    render() {        
-        const {items, cart} = this.state;        
+    emptyMessage() {
+        this.setState({
+            "message": ""
+        })
+    }
+
+    render() {
+        const {items, cart, message} = this.state;
         return (
                 <div className="Cart">
                     <div className="row">
@@ -99,9 +121,10 @@ class Menu extends React.Component {
                             <SaveCart saveCart={this.saveCart} />
                         </div>
                         <div className="col-xs-12 col-sm-6">
-                            <UnsetCart unsetCart={this.unsetCart} disabled={(cart.length<=0 || typeof cart === undefined)}/>
+                            <UnsetCart unsetCart={this.unsetCart} disabled={(cart.length <= 0 || typeof cart === undefined)}/>
                         </div>
                     </div>
+                    <SnackBar message={message}/>
                 </div>
                 );
     }
