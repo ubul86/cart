@@ -33,7 +33,7 @@ class SaveCartAction extends Action {
                     $orderItem = new \common\modules\order\models\OrderItem();
                     $orderItem->order_id = $order->id;
                     $orderItem->item_id = $item->itemId;
-                    $orderItem->item_count = $item->quantity;
+                    $orderItem->quantity = $item->quantity;
                     $orderItem->save();
                 } catch (\Exception $ex) {
                     $transaction->rollBack();

@@ -11,8 +11,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $id
  * @property string $order_id
  * @property string $item_id
- * @property string $item_count
- * @property int $item_price
+ * @property string $quantity
  * @property string $created_at
  * @property string $updated_at
  */
@@ -31,7 +30,7 @@ class OrderItem extends \yii\db\ActiveRecord {
     public function rules() {
         return [
             [['order_id', 'item_id'], 'required'],
-            [['order_id', 'item_id', 'item_count', 'item_price'], 'integer'],
+            [['order_id', 'item_id', 'quantity'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -44,8 +43,7 @@ class OrderItem extends \yii\db\ActiveRecord {
             'id' => 'ID',
             'order_id' => 'Order ID',
             'item_id' => 'Item ID',
-            'item_count' => 'Item Count',
-            'item_price' => 'Item Price',
+            'quantity' => 'Quantity',            
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

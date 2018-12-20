@@ -9,7 +9,6 @@ use Yii;
  *
  * @property string $id
  * @property string $name
- * @property string $price
  */
 class Item extends \yii\db\ActiveRecord
 {
@@ -27,8 +26,7 @@ class Item extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'price'], 'required'],
-            [['price'], 'integer'],
+            [['name'], 'required'],            
             [['name'], 'string', 'max' => 100],
         ];
     }
@@ -40,8 +38,7 @@ class Item extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'price' => 'Price',
+            'name' => 'Name',           
         ];
     }
 }
