@@ -1,4 +1,4 @@
 ReactDOM.render(
-        <Menu />,
-        document.getElementById('root')
-        );
+    <Menu />,
+    document.getElementById('root')
+);
