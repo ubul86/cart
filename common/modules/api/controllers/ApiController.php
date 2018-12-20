@@ -15,13 +15,13 @@ class ApiController extends Controller {
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [                    
-                    'list' => ['GET'],
+                    'list-cart-items' => ['GET'],
                     'list-available-items' => ['GET'],
-                    'add-item' => ['POST'],
-                    'update' => ['GET', 'PUT', 'POST'],
-                    'delete-item' => ['POST'],
-                    'unset-cart' => ['GET'],
-                    'save-cart' => ["GET"]
+                    'add-item-to-cart' => ['POST'],
+                    'update-cart-item' => ['GET', 'POST'],
+                    'delete-item-from-cart' => ['POST'],
+                    'unset-cart' => ['POST'],
+                    'save-cart' => ["POST"]
                 ],
             ],
             'contentNegotiator' => [

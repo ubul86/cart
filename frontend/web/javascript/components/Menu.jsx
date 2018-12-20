@@ -7,6 +7,8 @@ class Menu extends React.Component {
         };
         this.addToCart = this.addToCart.bind(this);
         this.deleteFromCart = this.deleteFromCart.bind(this);
+        this.unsetCart = this.unsetCart.bind(this);
+        this.saveCart = this.saveCart.bind(this);
     }
     componentDidMount() {
         this.serverRequest = $.get("/api/list-available-items", function (items) {
@@ -20,6 +22,30 @@ class Menu extends React.Component {
                 cart: cartItems.message.items
             });
         }.bind(this));
+    }
+
+    unsetCart() {        
+        if (this.state.cart.length > 0) {
+            this.serverRequest = $.post("/api/unset-cart", function (response) {
+                this.setState({
+                    cart: {}
+                });
+            }.bind(this));
+        } else {
+            alert("Üres");
+        }
+    }
+
+    saveCart(){
+        if (this.state.cart.length > 0) {
+            this.serverRequest = $.post("/api/save-cart", function (response) {
+                this.setState({
+                    cart: {}
+                });
+            }.bind(this));
+        } else {
+            alert("Üres a kosár");
+        }
     }
 
     addToCart(itemId, quantity) {
@@ -46,8 +72,8 @@ class Menu extends React.Component {
         }
     }
 
-    render() {
-        const {items, cart} = this.state;
+    render() {        
+        const {items, cart} = this.state;        
         return (
                 <div className="Cart">
                     <div className="row">
@@ -66,6 +92,14 @@ class Menu extends React.Component {
                                     {Object.keys(cart).map(key => <CartItem key={key} index={key} details={cart[key]} deleteFromCart={this.deleteFromCart} />)}
                                 </ul>
                             </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-xs-12 col-sm-6">
+                            <SaveCart saveCart={this.saveCart} />
+                        </div>
+                        <div className="col-xs-12 col-sm-6">
+                            <UnsetCart unsetCart={this.unsetCart} disabled={(cart.length<=0 || typeof cart === undefined)}/>
                         </div>
                     </div>
                 </div>
