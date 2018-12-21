@@ -1,60 +1,65 @@
-<p align="center">
-    <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
-    </a>
-    <h1 align="center">Yii 2 Advanced Project Template</h1>
-    <br>
-</p>
+<h1 align="center">Webcart application</h1>
 
-Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-developing complex Web applications with multiple tiers.
-
-The template includes three tiers: front end, back end, and console, each of which
-is a separate Yii application.
-
-The template is designed to work in a team development environment. It supports
-deploying the application in different environments.
-
-Documentation is at [docs/guide/README.md](docs/guide/README.md).
-
-[![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Build Status](https://travis-ci.org/yiisoft/yii2-app-advanced.svg?branch=master)](https://travis-ci.org/yiisoft/yii2-app-advanced)
-
-DIRECTORY STRUCTURE
--------------------
-
+Installation
+------------
+After you clone the repository, run 
 ```
-common
-    config/              contains shared configurations
-    mail/                contains view files for e-mails
-    models/              contains model classes used in both backend and frontend
-    tests/               contains tests for common classes    
-console
-    config/              contains console configurations
-    controllers/         contains console controllers (commands)
-    migrations/          contains database migrations
-    models/              contains console-specific model classes
-    runtime/             contains files generated during runtime
-backend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains backend configurations
-    controllers/         contains Web controller classes
-    models/              contains backend-specific model classes
-    runtime/             contains files generated during runtime
-    tests/               contains tests for backend application    
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-frontend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains frontend configurations
-    controllers/         contains Web controller classes
-    models/              contains frontend-specific model classes
-    runtime/             contains files generated during runtime
-    tests/               contains tests for frontend application
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-    widgets/             contains frontend widgets
-vendor/                  contains dependent 3rd-party packages
-environments/            contains environment-based overrides
+composer install
 ```
+
+Configuration
+-----------------------
+
+**Set environment**
+Before using Cart application, we'll also need to prepare the environment.
+Use
+```
+php init
+```
+and select your preferred environment.
+
+The application uses database connection, so you must to set set connection in the main-config.php in your chosen environment.
+
+**Vhost settings**
+The application uses the frontend branch, so you need to set up in your virtual host file.
+
+Apache example virtualhost settings:
+```
+<VirtualHost 127.0.0.1:80>
+    DocumentRoot "e:/webroot/cart/frontend/web"
+	    ServerName cart.local
+        ServerAlias cart.local
+        <Directory "e:/webroot/cart/frontend/web">
+            RewriteEngine on
+            # If a directory or a file exists, use the request directly
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteCond %{REQUEST_FILENAME} !-d
+            # Otherwise forward the request to index.php
+            RewriteRule . index.php
+            Options Indexes FollowSymLinks Includes
+            AllowOverride All
+            Order allow,deny
+            Allow from all
+            Require all granted
+        </Directory>
+</VirtualHost>
+```
+
+**Database Migrations**
+
+Before using Cart application, you'll also need to prepare the database.
+Use 
+```php
+php yii migrate 
+```
+and this will be create all database tables.
+
+**Application usage**
+
+The application is a simple webcart content managament application. 
+The Backend written in PHP and communicates with frontend by API calls written by React.
+
+**Api calls**
+
+The API module can be found in the /common/modules/api module.
+There are a several action in the controller that comprises all the webcart management.
