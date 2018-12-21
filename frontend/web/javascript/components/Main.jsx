@@ -66,6 +66,7 @@ class Main extends React.Component {
                 this.setState({
                     cart: []
                 });
+                this.notify(response.message);
             }.bind(this));
         } else {
             this.notify("Cart is empty");
