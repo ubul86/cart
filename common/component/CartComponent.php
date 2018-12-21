@@ -4,21 +4,15 @@ namespace common\component;
 
 use Yii;
 use yii\base\Component;
-use yii\base\InvalidParamException;
 use common\modules\cart\classes\CartItem;
 use yii\helpers\ArrayHelper;
 use common\helpers\ResponseHelper;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
- * Description of CartComponent
+ * Cart component to handle cart with session
  *
- * @author ubul8
+ * @author Gabor Sores
  */
 class CartComponent extends Component {
 
@@ -33,10 +27,20 @@ class CartComponent extends Component {
         $this->cart = Yii::$app->session->get('cart', null);
     }
 
+    /**
+     * Add an item to a cart
+     * @param CartItem $item
+     */
     public function addItemToCart(CartItem $item) {
         $this->getCart()->addItem($item);
     }
 
+    /**
+     * Delete an existing item from cart
+     * @param string $uniqueId
+     * @return $this
+     * @throws \Exception
+     */
     public function deleteItemFromCart($uniqueId) {
         if(!$this->getCount()){
             throw new \Exception(ResponseHelper::MESSAGE_CART_EMPTY_CART);
@@ -48,6 +52,13 @@ class CartComponent extends Component {
         return $this;
     }
 
+    /**
+     * Update an existing item quantity
+     * @param string $uniqueId
+     * @param integer $quantity
+     * @return $this
+     * @throws \Exception
+     */
     public function updateItemFromCart($uniqueId,$quantity){    
         if(!$this->getCount()){
             throw new \Exception(ResponseHelper::MESSAGE_CART_EMPTY_CART);
@@ -59,14 +70,16 @@ class CartComponent extends Component {
         return $this;
     }
     
+    /**
+     * Unset the cart, and session
+     */
     public function unsetCart() {
         \Yii::$app->session->remove('cart');        
         $this->cart = null;
     }
 
     /**
-     * @param string $itemType If specified, only items of that type will be counted
-     *
+     * Get The item count from cart     
      * @return int
      */
     public function getCount() {
@@ -75,21 +88,30 @@ class CartComponent extends Component {
 
     /**
      * Returns all items of a given type from the cart
-     * @return
+     * @return Cart
      */
     public function getItems() {
         return $this->getCart()->getItems();
     }
 
+    /**
+     * Return a Cart Item by its uniqueid
+     * @param string $uniqueId
+     * @return CartItem
+     */
     public function getItemByUniqueId($uniqueId){
         return $this->getCart()->getItem($uniqueId);
     }
     
+    /**
+     * Return a Cart Item by item_id
+     * @param integer $itemId
+     * @return boolean
+     */
     public function getItemByItemId($itemId){
         if(!$this->getCount()){
             return false;
-        }
-        $items=$this->getItems();
+        }        
         foreach($this->getItems() as $uniqueId => $cartItem){
             if($cartItem->itemId==$itemId){                
                 return $this->getItemByUniqueId($uniqueId);

@@ -1,16 +1,10 @@
 <?php
 namespace common\modules\cart\classes;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of CartItem
  *
- * @author ubul8
+ * @author Gabor Sores
  */
 class CartItem {
     public $id;
@@ -18,7 +12,8 @@ class CartItem {
     public $itemName;
     public $quantity;
     
-    public function __construct($itemId,$quantity) {        
+    public function __construct($itemId,$quantity) {     
+        //Generate a random string to an unique id
         $this->id= \Yii::$app->security->generateRandomString();
         $this->itemId=$itemId;
         $this->quantity=$quantity;
@@ -29,22 +24,39 @@ class CartItem {
         }
     }
     
+    /**
+     * Get the CartItem unique Id
+     * @return string
+     */
     public function getUniqueId()
     {
         return $this->id;
     }
     
+    /**
+     * Get the Cart Item quantity
+     * @return integer
+     */
     public function getQuantity(){
         return $this->quantity;
     }
     
+    /**
+     * Get the CartItem ItemId
+     * @return integer
+     */
     public function getItemId(){
         return $this->item_id;
     }
     
+    /**
+     * Get an array of the properties
+     * @return array
+     */
     public function getItem(){
         return ['id' => $this->id,'item_id' => $this->itemId, 'quantity' => $this->quantity, 'item_name' => $this->itemName];
     }    
+    
     
     public function getContent(){
         return $this->getItem();

@@ -1,15 +1,10 @@
 <?php
 namespace common\helpers;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
- * Description of ResponseHelper
+ * Helper class to print a response code and a message content 
  *
- * @author ubul8
+ * @author Gabor Sores
  */
 class ResponseHelper {
     const RESPONSE_SUCCESS=1;

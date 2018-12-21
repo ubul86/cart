@@ -4,7 +4,7 @@ namespace common\modules\api\controllers;
 
 use Yii;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use yii\filters\ContentNegotiator;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 
@@ -25,10 +25,10 @@ class ApiController extends Controller {
                 ],
             ],
             'contentNegotiator' => [
-                'class' => \yii\filters\ContentNegotiator::className(),
+                'class' => ContentNegotiator::className(),
                 'formatParam' => '_format',
                 'formats' => [
-                    'application/json' => \yii\web\Response::FORMAT_JSON,
+                    'application/json' => Response::FORMAT_JSON,
                 ],
             ],
         ];
