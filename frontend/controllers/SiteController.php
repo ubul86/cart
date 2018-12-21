@@ -85,9 +85,11 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
+        $sessionId= \Yii::$app->session->id;
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $userId= \Yii::$app->user->identity->id;  
+            \common\modules\order\models\Order::updateAll(['user_id' => $userId],['session_id' => $sessionId]);
             return $this->goBack();
         } else {
             $model->password = '';
