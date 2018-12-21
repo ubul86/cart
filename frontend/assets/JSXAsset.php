@@ -15,9 +15,11 @@ class JSXAsset extends AssetBundle
         'javascript/components/SnackBar.jsx',
         'javascript/components/UnsetCart.jsx',
         'javascript/components/SaveCart.jsx',
+        'javascript/components/Items.jsx',
         'javascript/components/Item.jsx',
+        'javascript/components/Cart.jsx',
         'javascript/components/CartItem.jsx',
-        'javascript/components/Menu.jsx',
+        'javascript/components/Main.jsx',
         'javascript/app.jsx'
     ];
     public $jsOptions = ['type'=>'text/jsx'];
