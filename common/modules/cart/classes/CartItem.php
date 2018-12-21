@@ -15,12 +15,18 @@ namespace common\modules\cart\classes;
 class CartItem {
     public $id;
     public $itemId;
+    public $itemName;
     public $quantity;
     
     public function __construct($itemId,$quantity) {        
         $this->id= \Yii::$app->security->generateRandomString();
         $this->itemId=$itemId;
         $this->quantity=$quantity;
+        
+        if($itemId){
+            $model= \common\models\Item::findOne($this->itemId);
+            $this->itemName=$model->name;
+        }
     }
     
     public function getUniqueId()
@@ -37,7 +43,7 @@ class CartItem {
     }
     
     public function getItem(){
-        return ['id' => $this->id,'item_id' => $this->itemId, 'quantity' => $this->quantity];
+        return ['id' => $this->id,'item_id' => $this->itemId, 'quantity' => $this->quantity, 'item_name' => $this->itemName];
     }    
     
     public function getContent(){
