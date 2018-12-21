@@ -22,15 +22,15 @@ class AddItemToCartAction extends Action {
             throw new Exception(ResponseHelper::MESSAGE_ITEM_NOT_FOUND);
         }
         $cart= \Yii::$app->cart;
-//        $cartItem=$cart->getItemByItemId($itemId);
-//        if(!$cartItem){
+        $cartItem=$cart->getItemByItemId($itemId);
+        if(!$cartItem){
             $cartItem=new CartItem($itemId,$quantity);
             $cart->addItemToCart($cartItem);
-//        }
-//        else{
-//            $quantity=$cartItem->getQuantity()+$quantity;
-//            $cart->updateItemFromCart($cartItem->getUniqueId(),$quantity); 
-//        }
+        }
+        else{
+            $quantity=$cartItem->getQuantity()+$quantity;
+            $cart->updateItemFromCart($cartItem->getUniqueId(),$quantity); 
+        }
         return ["item" => $cartItem->getContent()];
     }
 

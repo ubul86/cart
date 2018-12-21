@@ -87,7 +87,16 @@ class Main extends React.Component {
         if (quantity > 0) {
             this.serverRequest = $.post("/api/add-item-to-cart", {item_id: itemId, quantity: quantity}, function (response) {
                 if (response.result == 1) {
-                    cart.push(response.message.item);
+                    let update=false;                   
+                    cart.map((cartData,index) => {
+                        if(cartData.id===response.message.item.id){
+                            update=true;                            
+                            cart[index].quantity=response.message.item.quantity;
+                        }
+                    });  
+                    if(update==false){
+                        cart.push(response.message.item);
+                    } 
                     this.setState({
                         cart: cart
                     });
@@ -128,9 +137,6 @@ class Main extends React.Component {
                     <Items items={items} addToCart={this.addToCart} />
                     <SnackBar message={message}/>
                 </div>
-
-
-
                 );
     }
 }

@@ -13,7 +13,8 @@ class ListAvailableItemsAction extends Action {
 
     public $controller;
 
-    public function run() {                
+    public function run() {              
+        // TODO: paginate items, not load everything at once        
         return \common\models\Item::find()->asArray()->all();
     }
 
