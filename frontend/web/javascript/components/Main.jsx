@@ -51,9 +51,8 @@ class Main extends React.Component {
                     this.setState({
                         cart: []
                     });
-                } else {
-                    this.notify(response.message);
                 }
+                this.notify(response.message);
             }.bind(this));
         } else {
             this.notify("Cart is empty");
@@ -63,9 +62,11 @@ class Main extends React.Component {
     saveCart() {
         if (this.state.cart.length > 0) {
             this.serverRequest = $.post("/api/save-cart", function (response) {
-                this.setState({
-                    cart: []
-                });
+                if (response.result == 1) {
+                    this.setState({
+                        cart: []
+                    });
+                }
                 this.notify(response.message);
             }.bind(this));
         } else {
@@ -88,19 +89,20 @@ class Main extends React.Component {
         if (quantity > 0) {
             this.serverRequest = $.post("/api/add-item-to-cart", {item_id: itemId, quantity: quantity}, function (response) {
                 if (response.result == 1) {
-                    let update=false;                   
-                    cart.map((cartData,index) => {
-                        if(cartData.id===response.message.item.id){
-                            update=true;                            
-                            cart[index].quantity=response.message.item.quantity;
+                    let update = false;
+                    cart.map((cartData, index) => {
+                        if (cartData.id === response.message.item.id) {
+                            update = true;
+                            cart[index].quantity = response.message.item.quantity;
                         }
-                    });  
-                    if(update==false){
+                    });
+                    if (update == false) {
                         cart.push(response.message.item);
-                    } 
+                    }
                     this.setState({
                         cart: cart
                     });
+                    this.notify("You successfully add an item to your cart.");
                 } else {
                     this.notify(response.message);
                 }
