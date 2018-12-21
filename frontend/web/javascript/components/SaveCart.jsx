@@ -10,8 +10,8 @@ class SaveCart extends React.Component {
     render() {      
         const disabled = this.props.disabled;        
         return(
-                <div className="saveCartContainer">                   
-                    <button className="btn btn-primary saveCart" onClick={() => this.saveCart()} >Save Cart</button>
+                <div className="saveCartContainer pull-right">                   
+                    <button className="btn btn-primary saveCart" onClick={() => this.saveCart()} disabled={disabled} >Save Cart</button>
                 </div>
                 )
     }
