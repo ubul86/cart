@@ -4,6 +4,9 @@ namespace common\modules\order\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use common\helpers\ResponseHelper;
+use Exception;
+use common\modules\order\models\OrderItem;
 
 /**
  * This is the model class for table "order".
@@ -47,20 +50,59 @@ class Order extends \yii\db\ActiveRecord {
     }
 
     public function behaviors() {
-        return [ [
-            'class' => \yii\behaviors\TimestampBehavior::className(),
-            'attributes' => [
-                \yii\db\ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
-                \yii\db\ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+        return [[
+                'class' => \yii\behaviors\TimestampBehavior::className(),
+                'attributes' => [
+                    \yii\db\ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    \yii\db\ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+                'value' => new \yii\db\Expression('NOW()'),
             ],
-            'value' => new \yii\db\Expression('NOW()'),
-        ],    
         ];
-       
     }
 
-    public function getOrderItems(){
+    public function getOrderItems() {
         return $this->hasMany(OrderItem::class, ['order_id' => 'id']);
     }
+
+    /**
+     * Save the order
+     * @param Cart $cart
+     * @return boolean
+     * @throws Exception
+     */
+    public function saveOrder($cart) {
+        if ($this->validate()) {
+            $transaction = $this->getDb()->beginTransaction();
+            $this->save();
+            foreach ($cart->getItems() as $item) {
+                try {
+                    $this->saveOrderItem($item);
+                } catch (\Exception $ex) {                    
+                    $transaction->rollBack();
+                    throw new Exception($ex->getMessage());
+                }
+            }
+            $transaction->commit();
+        }
+        return true;
+    }
     
+    /**
+     * Save Order Item
+     * @param CartItem $item
+     * @throws Exception
+     */
+    private function saveOrderItem($item){
+        try{
+            $orderItem = new OrderItem();
+            $orderItem->order_id = $this->id;
+            $orderItem->item_id = $item->itemId;
+            $orderItem->quantity = $item->quantity;
+            $orderItem->save();
+        } catch (Exception $ex) {            
+            throw new Exception($ex->getMessage());
+        }        
+    }
+
 }
