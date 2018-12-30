@@ -19,8 +19,8 @@ class ApiController extends Controller {
                     'list-available-items' => ['GET'],
                     'add-item-to-cart' => ['POST'],
                     'update-cart-item' => ['GET', 'POST'],
-                    'delete-item-from-cart' => ['POST'],
-                    'unset-cart' => ['POST'],
+                    'delete-item-from-cart' => ['DELETE'],
+                    'unset-cart' => ['DELETE'],
                     'save-cart' => ["POST"]
                 ],
             ],
