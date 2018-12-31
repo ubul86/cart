@@ -1,26 +1,38 @@
+const API_URL="//api.cart.local";
+
 class Main extends React.Component {
     constructor() {
-        super();
+        super();        
         this.state = {
             items: {},
             cart: {},
-            message: '',
-        };
+            message: ''            
+        };        
         this.notify = this.notify.bind(this);
         this.addToCart = this.addToCart.bind(this);
         this.deleteFromCart = this.deleteFromCart.bind(this);
         this.unsetCart = this.unsetCart.bind(this);
         this.saveCart = this.saveCart.bind(this);
-        this.emptyMessage = this.emptyMessage.bind(this);
+        this.emptyMessage = this.emptyMessage.bind(this);        
+    }
 
-
+    getSessionToken(){        
+        if(window.localStorage.getItem("token")===null){            
+            axios.get(API_URL+"/v1/get-api-token").then(response => {                
+                if(response.data.result==1){                    
+                    window.localStorage.setItem("token",response.data.message);
+                }
+            })
+        }
+        return window.localStorage.getItem("token");
     }
 
     componentDidMount() {
 
+        let token=this.getSessionToken()
         let me = this;
 
-        axios.get("/api/list-available-items")
+        axios.get(API_URL+"/v1/list-available-items",{params: {token: token}})
                 .then(response => {
                     if (response.data.result == 1) {
                         me.setState({
@@ -33,7 +45,7 @@ class Main extends React.Component {
             me.notify("Internal server error");
         });
 
-        axios.get("/api/list-cart-items")
+        axios.get(API_URL+"/v1/list-cart-items",{params : {token: token}})
                 .then(response => {
                     if (response.data.result == 1) {
                         me.setState({
@@ -49,8 +61,9 @@ class Main extends React.Component {
     }
 
     unsetCart() {
+        let token=this.getSessionToken()
         if (this.state.cart.length > 0) {
-            axios.delete("/api/unset-cart")
+            axios.post(API_URL+"/v1/unset-cart",Qs.stringify({}),{params: {token: token}})
                     .then(response => {
                         if (response.data.result == 1) {
                             this.setState({
@@ -67,8 +80,9 @@ class Main extends React.Component {
     }
 
     saveCart() {
+        let token=this.getSessionToken()
         if (this.state.cart.length > 0) {
-            axios.post("/api/save-cart")
+            axios.post(API_URL+"/v1/save-cart",Qs.stringify({}),{params: {token: token}})
                     .then(response => {
                         if (response.data.result == 1) {
                             this.setState({
@@ -96,8 +110,9 @@ class Main extends React.Component {
 
     addToCart(itemId, quantity) {
         let cart = this.state.cart;
+        let token=this.getSessionToken()
         if (quantity > 0) {
-            axios.post("/api/add-item-to-cart", Qs.stringify({item_id: itemId, quantity: quantity}))
+            axios.post(API_URL+"/v1/add-item-to-cart", Qs.stringify({item_id: itemId, quantity: quantity}),{params: {token: token}})
                     .then(response => {
                         if (response.data.result == 1) {
                             let update = false;
@@ -125,8 +140,9 @@ class Main extends React.Component {
 
     deleteFromCart(uniqueId, index) {
         let cart = this.state.cart;
+        let token=this.getSessionToken()        
         if (uniqueId) {
-            axios.delete("/api/delete-item-from-cart", {params: {uniqueId: uniqueId}})
+            axios.post(API_URL+"/v1/delete-item-from-cart",Qs.stringify({uniqueId: uniqueId}), {params: {token:token}})
                     .then(response => {
                         if (response.data.result == 1) {
                             cart.splice(index, 1);

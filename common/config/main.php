@@ -10,13 +10,12 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'cart' => [
-            'class' => \common\component\CartComponent::class,
-        ]
+        
+        
     ],
-    'modules' => [
-        'api' => [
-			"class" => 'common\modules\api\Module',
-		],
+    'modules' => [       
+        'v1' =>[
+            "class" => api\modules\v1\Module::class,
+        ]
     ]
 ];

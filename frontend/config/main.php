@@ -37,8 +37,8 @@ return [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-            'enableSession' => true,
-            'identityCookie' => ['name' => 'user_phpsess', 'httpOnly' => true],
+            'enableSession' => false,
+            'identityCookie' => ['name' => 'user_phpsess', 'httpOnly' => false],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
@@ -67,9 +67,6 @@ return [
                 '<controller:(api)>/list-available-items' => '<controller>/api/list-available-items',
                 '<controller:(api)>/unset-cart' => '<controller>/api/unset-cart',
                 '<controller:(api)>/save-cart' => '<controller>/api/save-cart',
-//                '<controller:(post|comment)>/<id:\d+>/<action:(update|delete)>' => '<controller>/<action>',
-//                '<controller:(post|comment)>/<id:\d+>' => '<controller>/view',
-//                '<controller:(post|comment)>s' => '<controller>/index',
             ]
         ],
     ],
