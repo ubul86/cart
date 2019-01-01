@@ -15,7 +15,7 @@ class DeleteItemFromCartAction extends Action {
     
 
     public function run() {
-        $uniqueId= Yii::$app->request->post('uniqueId',0);
+        $uniqueId= Yii::$app->request->get('uniqueId',0);
         if ($uniqueId) {
             $cart = Yii::$app->cart;
             $cart->deleteItemFromCart($uniqueId);
