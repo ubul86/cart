@@ -53,7 +53,7 @@ return [
             'enableAutoLogin' => false,
             'enableSession' => false,
             'authTimeout' => 60 * 30,
-            'identityClass' => 'api\models\User',
+            'identityClass' => 'common\models\User',
             'identityCookie' => [
                 'name' => '_panelUser',
             ]
