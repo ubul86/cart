@@ -63,3 +63,9 @@ The Backend written in PHP and communicates with frontend by API calls written b
 
 The API module can be found in the /common/modules/api module.
 There are a several action in the controller that comprises all the webcart management.
+
+**Update: 2019.12.30**
+
+- There is a new api_branch in the project and git. It is easier to handle version changes.
+- The api module removed from common.
+- The master branch is not changed.
