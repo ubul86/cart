@@ -21,13 +21,6 @@ class ApiController extends Controller {
         ];
     }
         
-    public function beforeAction($action) {
-        parent::beforeAction($action);
-        \Yii::$app->session->setId(\Yii::$app->request->get('token',null));
-        return true;
-    }
-    
-    
     public function behaviors() {
         return array_merge(parent::behaviors(),[
             'corsFilter' => [
