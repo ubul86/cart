@@ -45,6 +45,29 @@ Apache example virtualhost settings:
 </VirtualHost>
 ```
 
+In api branch, you must use the following apache vhost example too to communicate with the API:
+
+```
+<VirtualHost 127.0.0.1:80>
+    DocumentRoot "e:/webroot/cart/api/web"
+	ServerName api.cart.local
+        ServerAlias api.cart.local
+        <Directory "e:/webroot/cart/api/web">
+            RewriteEngine on
+            # If a directory or a file exists, use the request directly
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteCond %{REQUEST_FILENAME} !-d
+            # Otherwise forward the request to index.php
+            RewriteRule . index.php
+            Options Indexes FollowSymLinks Includes
+            AllowOverride All
+            Order allow,deny
+            Allow from all
+            Require all granted
+        </Directory>
+</VirtualHost>
+```
+
 **Database Migrations**
 
 Before using Cart application, you'll also need to prepare the database.
