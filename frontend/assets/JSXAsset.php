@@ -24,6 +24,6 @@ class JSXAsset extends AssetBundle
     ];
     public $jsOptions = ['type'=>'text/jsx'];
     public $depends = [
-        'frontend\assets\Appasset',        
+        'frontend\assets\AppAsset',        
     ];
 }
