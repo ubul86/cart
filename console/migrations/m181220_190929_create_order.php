@@ -19,8 +19,8 @@ class m181220_190929_create_order extends Migration
             'id' => $this->primaryKey(10)->unsigned(),
             'user_id' => $this->integer(10)->notNull()->unsigned(),
             'session_id' => $this->string(100)->null()->unsigned(),
-            'created_at' => $this->timestamp()->unsigned(),
-            'updated_at' => $this->timestamp()->unsigned(),            
+            'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),            
         ], $tableOptions);
     }
 

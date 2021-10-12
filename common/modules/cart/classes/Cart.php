@@ -9,7 +9,7 @@ use common\modules\cart\classes\CartItem;
  * @author Gabor Sores
  */
 class Cart {
-    private $items;
+    private $items=[];
     
     /**
      * Return all items from Cart

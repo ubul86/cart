@@ -20,8 +20,8 @@ class m181220_191524_create_order_item extends Migration
             'order_id' => $this->integer(10)->notNull()->unsigned(),
             'item_id' => $this->integer(10)->notNull()->unsigned(),
             'quantity' => $this->integer(10)->notNull()->defaultValue(0)->unsigned(),            
-            'created_at' => $this->timestamp(),
-            'updated_at' => $this->timestamp(),            
+            'created_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
+            'updated_at' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),            
         ], $tableOptions);
     }
 
